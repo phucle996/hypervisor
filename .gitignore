@@ -1,0 +1,51 @@
+# ------------------------------
+# OS / Editor
+# ------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+.idea/
+.vscode/
+*.iml
+
+# ------------------------------
+# Go / Build
+# ------------------------------
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.prof
+*.pprof
+coverage.*
+*.coverprofile
+profile.cov
+go.work
+go.work.sum
+
+# Root binary output
+bin/
+
+# ------------------------------
+# Environment / Local config
+# ------------------------------
+.env
+.env.*
+!.env.example
+!.env.*.example
+.local/
+
+# ------------------------------
+# Runtime / Logs / PIDs
+# ------------------------------
+*.log
+*.pid
+*.pid.lock
+.testinfra/

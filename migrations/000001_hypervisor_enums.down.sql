@@ -1,0 +1,1 @@
+-- Drop Hypervisor Enums and Types

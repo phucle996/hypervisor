@@ -1,0 +1,23 @@
+[Unit]
+Description=Aurora Hypervisor Service
+After=network.target postgresql.service redis.service
+ConditionPathExists=/usr/local/bin/aurora-hypervisor
+
+[Service]
+Type=simple
+User=aurora-hypervisor
+Group=aurora
+EnvironmentFile=/etc/aurora-hypervisor/.env
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/local/bin/aurora-hypervisor
+Restart=on-failure
+RestartSec=5s
+
+# Security configurations
+NoNewPrivileges=yes
+ProtectSystem=full
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

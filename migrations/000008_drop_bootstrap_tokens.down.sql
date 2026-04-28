@@ -1,0 +1,1 @@
+-- Bootstrap tokens are Redis-only and intentionally not recreated in PostgreSQL.

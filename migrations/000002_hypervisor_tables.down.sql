@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS hypervisor_events;
+DROP TABLE IF EXISTS ip_allocations;
+DROP TABLE IF EXISTS ip_pools;
+DROP TABLE IF EXISTS vps_network_interfaces;
+DROP TABLE IF EXISTS vps_metrics;
+DROP TABLE IF EXISTS vps_snapshots;
+DROP TABLE IF EXISTS vps_disks;
+DROP TABLE IF EXISTS vps_instances;
+DROP TABLE IF EXISTS hypervisor_network_interfaces;
+DROP TABLE IF EXISTS hypervisor_storage_pools;
+DROP TABLE IF EXISTS hypervisor_node_metrics;
+DROP TABLE IF EXISTS hypervisor_node_agents;
+DROP TABLE IF EXISTS hypervisor_nodes;
