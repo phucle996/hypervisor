@@ -11,12 +11,14 @@ import (
 	hypervisor_errorx "hypervisor/internal/errorx"
 	"hypervisor/internal/security"
 	agentregistryv1 "hypervisor/internal/transport/grpc/agentregistryv1"
+	"hypervisor/pkg/logger"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"fmt"
 )
 
 type Server struct {
@@ -29,6 +31,7 @@ func NewServer(service domainsvc.NodeSvcInterface) *Server {
 }
 
 func (s *Server) BootstrapEnrollAgent(ctx context.Context, req *agentregistryv1.BootstrapEnrollAgentRequest) (*agentregistryv1.BootstrapEnrollAgentResponse, error) {
+	logger.SysInfo("AgentRegistry", fmt.Sprintf("Received BootstrapEnrollAgent request for agent %s (hostname: %s)", req.GetRequestedAgentId(), req.GetHostname()))
 	completed, err := s.service.BootstrapEnroll(ctx, entity.BootstrapEnrollment{
 		BootstrapToken:   req.GetBootstrapToken(),
 		RequestedAgentID: req.GetRequestedAgentId(),
@@ -36,7 +39,7 @@ func (s *Server) BootstrapEnrollAgent(ctx context.Context, req *agentregistryv1.
 		Hostname:         req.GetHostname(),
 	})
 	if err != nil {
-		return nil, mapGRPCError(err)
+		return nil, s.logAndMapError("AgentRegistry.BootstrapEnrollAgent", err)
 	}
 
 	return &agentregistryv1.BootstrapEnrollAgentResponse{
@@ -79,7 +82,7 @@ func (s *Server) AgentControlStream(stream agentregistryv1.AgentRegistry_AgentCo
 		DiskBytes:        registerMessage.RegisterHost.GetDiskBytes(),
 	})
 	if err != nil {
-		return mapGRPCError(err)
+		return s.logAndMapError("AgentRegistry.AgentControlStream.RegisterAgentHost", err)
 	}
 
 	if err := stream.Send(&agentregistryv1.HypervisorToAgent{
@@ -118,7 +121,7 @@ func (s *Server) AgentControlStream(stream agentregistryv1.AgentRegistry_AgentCo
 				Status:     message.Heartbeat.GetStatus(),
 				LastSeenAt: lastSeen,
 			}); err != nil {
-				return mapGRPCError(err)
+				return s.logAndMapError("AgentRegistry.AgentControlStream.RecordAgentHeartbeat", err)
 			}
 			if err := stream.Send(&agentregistryv1.HypervisorToAgent{
 				Message: &agentregistryv1.HypervisorToAgent_HeartbeatAck{
@@ -141,7 +144,7 @@ func (s *Server) AgentControlStream(stream agentregistryv1.AgentRegistry_AgentCo
 				NetworkInterfaces: networkInterfaceEntities(message.HostInventory.GetNetworkInterfaces()),
 				CollectedAt:       timestampOrNow(message.HostInventory.GetCollectedAt()),
 			}); err != nil {
-				return mapGRPCError(err)
+				return s.logAndMapError("AgentRegistry.AgentControlStream.RecordHostInventory", err)
 			}
 		case *agentregistryv1.AgentToHypervisor_NodeMetric:
 			if err := s.service.RecordNodeMetric(stream.Context(), entity.NodeMetricIngest{
@@ -160,7 +163,8 @@ func (s *Server) AgentControlStream(stream agentregistryv1.AgentRegistry_AgentCo
 				},
 				Frame: entity.AgentStreamFrame{StreamID: frame.GetStreamId(), Seq: frame.GetSeq()},
 			}); err != nil {
-				return mapGRPCError(err)
+				return s.logAndMapError("AgentRegistry.AgentControlStream.RecordNodeMetric", err)
+
 			}
 		case *agentregistryv1.AgentToHypervisor_VpsMetric:
 			if err := s.service.RecordVPSMetric(stream.Context(), entity.VPSMetricIngest{
@@ -179,7 +183,8 @@ func (s *Server) AgentControlStream(stream agentregistryv1.AgentRegistry_AgentCo
 				},
 				Frame: entity.AgentStreamFrame{StreamID: frame.GetStreamId(), Seq: frame.GetSeq()},
 			}); err != nil {
-				return mapGRPCError(err)
+				return s.logAndMapError("AgentRegistry.AgentControlStream.RecordVPSMetric", err)
+
 			}
 		case *agentregistryv1.AgentToHypervisor_CommandResult:
 			if err := s.service.RecordAgentCommandResult(stream.Context(), entity.AgentCommandResult{
@@ -191,12 +196,21 @@ func (s *Server) AgentControlStream(stream agentregistryv1.AgentRegistry_AgentCo
 				ErrorMessage: message.CommandResult.GetErrorMessage(),
 				CompletedAt:  timestampOrNow(message.CommandResult.GetCompletedAt()),
 			}); err != nil {
-				return mapGRPCError(err)
+				return s.logAndMapError("AgentRegistry.AgentControlStream.RecordAgentCommandResult", err)
 			}
 		default:
 			return status.Error(codes.InvalidArgument, "unsupported agent frame")
 		}
 	}
+}
+
+func (s *Server) logAndMapError(op string, err error) error {
+	if err == nil {
+		return nil
+	}
+
+	logger.SysError(op, err.Error())
+	return mapGRPCError(err)
 }
 
 func (s *Server) sendLeasedCommands(stream agentregistryv1.AgentRegistry_AgentControlStreamServer, agentID string, nodeID string, owner string) error {
@@ -207,7 +221,7 @@ func (s *Server) sendLeasedCommands(stream agentregistryv1.AgentRegistry_AgentCo
 		LeaseTTL:   30 * time.Second,
 	})
 	if err != nil {
-		return mapGRPCError(err)
+		return s.logAndMapError("AgentRegistry.LeaseAgentCommands", err)
 	}
 	for _, command := range commands {
 		if command == nil || command.NodeID != nodeID {
@@ -302,9 +316,11 @@ func agentIDFromPeer(ctx context.Context) (string, error) {
 }
 
 func mapGRPCError(err error) error {
-	switch {
-	case err == nil:
+	if err == nil {
 		return nil
+	}
+
+	switch {
 	case errors.Is(err, hypervisor_errorx.ErrInvalidInput):
 		return status.Error(codes.InvalidArgument, "invalid request")
 	case errors.Is(err, hypervisor_errorx.ErrUnauthorized):
