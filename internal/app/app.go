@@ -156,17 +156,22 @@ func NewApplication(cfg *config.Config) (*App, error) {
 
 func (a *App) Start(_ *config.Config) error {
 	if a.cfg.GRPC.Enabled {
-		tlsConfig, err := buildGRPCServerTLSConfig(a.cfg)
-		if err != nil {
-			return err
-		}
 		listener, err := net.Listen("tcp", ":"+a.cfg.GRPC.ServerPort)
 		if err != nil {
 			return fmt.Errorf("app: listen grpc: %w", err)
 		}
-
 		a.grpcListen = listener
-		a.grpcServer = grpc.NewServer(grpc.Creds(credentials.NewTLS(tlsConfig)))
+
+		var opts []grpc.ServerOption
+		tlsConfig, err := buildGRPCServerTLSConfig(a.cfg)
+		if err == nil && tlsConfig != nil {
+			opts = append(opts, grpc.Creds(credentials.NewTLS(tlsConfig)))
+			logger.SysInfo("app", "gRPC server started with TLS")
+		} else {
+			logger.SysWarn("app", fmt.Sprintf("gRPC server started in INSECURE mode: %v", err))
+		}
+
+		a.grpcServer = grpc.NewServer(opts...)
 		agentregistryv1.RegisterAgentRegistryServer(a.grpcServer, a.module.AgentRegistryServer)
 
 		go func() {

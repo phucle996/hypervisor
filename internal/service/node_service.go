@@ -376,15 +376,32 @@ func (s *NodeService) AssignNodeZone(ctx context.Context, input entity.AssignNod
 }
 
 func (s *NodeService) renderInstallCommand(token, version string) string {
-	parts := []string{
+	return strings.Join([]string{
 		"curl -fsSL",
 		shellEscape(kvmAgentInstallScriptURL),
 		"| bash -s --",
 		"--server", shellEscape(s.grpcCfg.ServerPublicAddr),
 		"--token", shellEscape(token),
 		"--version", shellEscape(version),
+	}, " ")
+}
+
+// grpcPublicHost extracts the hostname portion from a host:port or plain host string.
+func grpcPublicHost(addr string) string {
+	addr = strings.TrimSpace(addr)
+	if addr == "" {
+		return ""
 	}
-	return strings.Join(parts, " ")
+	// Strip scheme if present (e.g. https://host:port)
+	for _, scheme := range []string{"https://", "http://"} {
+		addr = strings.TrimPrefix(addr, scheme)
+	}
+	// Split host:port
+	host := addr
+	if i := strings.LastIndex(addr, ":"); i >= 0 {
+		host = addr[:i]
+	}
+	return host
 }
 
 func randomBootstrapToken() (string, error) {
