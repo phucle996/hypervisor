@@ -1,3 +1,10 @@
+DROP INDEX IF EXISTS idx_agent_commands_lease;
+DROP INDEX IF EXISTS idx_agent_commands_agent_status;
+DROP INDEX IF EXISTS idx_agent_commands_idempotency;
+DROP INDEX IF EXISTS idx_vps_metric_rollups_bucket;
+DROP INDEX IF EXISTS idx_node_metric_rollups_bucket;
+DROP INDEX IF EXISTS idx_vps_metrics_source_frame;
+DROP INDEX IF EXISTS idx_node_metrics_source_frame;
 DROP INDEX IF EXISTS idx_hypervisor_events_action;
 DROP INDEX IF EXISTS idx_hypervisor_events_target;
 DROP INDEX IF EXISTS idx_ip_allocations_vps;

@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS hypervisor_agent_commands;
+DROP TABLE IF EXISTS vps_metric_rollups;
+DROP TABLE IF EXISTS hypervisor_node_metric_rollups;
 DROP TABLE IF EXISTS hypervisor_events;
 DROP TABLE IF EXISTS ip_allocations;
 DROP TABLE IF EXISTS ip_pools;

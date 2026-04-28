@@ -1,3 +1,4 @@
+-- Hypervisor Nodes Table
 CREATE TABLE IF NOT EXISTS hypervisor_nodes (
     id VARCHAR(26) PRIMARY KEY,
     zone_id VARCHAR(26) NOT NULL,
@@ -9,6 +10,10 @@ CREATE TABLE IF NOT EXISTS hypervisor_nodes (
     cpu_threads INT NOT NULL DEFAULT 0,
     ram_gib INT NOT NULL DEFAULT 0,
     ssd_gib INT NOT NULL DEFAULT 0,
+    gpu_model TEXT NOT NULL DEFAULT '',
+    gpu_count INT NOT NULL DEFAULT 0,
+    gpu_memory_bytes BIGINT NOT NULL DEFAULT 0,
+    management_ip VARCHAR(45) NOT NULL DEFAULT '',
     metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -17,9 +22,11 @@ CREATE TABLE IF NOT EXISTS hypervisor_nodes (
     CONSTRAINT chk_hypervisor_nodes_cpu_cores CHECK (cpu_cores >= 0),
     CONSTRAINT chk_hypervisor_nodes_cpu_threads CHECK (cpu_threads >= 0),
     CONSTRAINT chk_hypervisor_nodes_ram_gib CHECK (ram_gib >= 0),
-    CONSTRAINT chk_hypervisor_nodes_ssd_gib CHECK (ssd_gib >= 0)
+    CONSTRAINT chk_hypervisor_nodes_ssd_gib CHECK (ssd_gib >= 0),
+    CONSTRAINT chk_hypervisor_nodes_gpu_count CHECK (gpu_count >= 0)
 );
 
+-- Hypervisor Node Agents Table
 CREATE TABLE IF NOT EXISTS hypervisor_node_agents (
     id VARCHAR(26) PRIMARY KEY,
     node_id VARCHAR(26) NOT NULL REFERENCES hypervisor_nodes(id) ON DELETE CASCADE,
@@ -28,6 +35,8 @@ CREATE TABLE IF NOT EXISTS hypervisor_node_agents (
     hostname VARCHAR(255) NOT NULL DEFAULT '',
     listen_addr VARCHAR(255) NOT NULL DEFAULT '',
     status VARCHAR(32) NOT NULL DEFAULT 'offline',
+    cert_serial VARCHAR(64) NOT NULL DEFAULT '',
+    cert_not_after TIMESTAMPTZ,
     last_heartbeat_at TIMESTAMPTZ,
     capabilities JSONB NOT NULL DEFAULT '{}'::jsonb,
     metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
@@ -36,23 +45,31 @@ CREATE TABLE IF NOT EXISTS hypervisor_node_agents (
     CONSTRAINT chk_hypervisor_node_agents_status CHECK (status IN ('online', 'offline', 'upgrading', 'error'))
 );
 
+-- Hypervisor Node Metrics Table
 CREATE TABLE IF NOT EXISTS hypervisor_node_metrics (
     id VARCHAR(26) PRIMARY KEY,
     node_id VARCHAR(26) NOT NULL REFERENCES hypervisor_nodes(id) ON DELETE CASCADE,
     cpu_used_percent DOUBLE PRECISION NOT NULL DEFAULT 0,
+    cpu_used_cores NUMERIC(10, 2) NOT NULL DEFAULT 0,
     ram_used_gib DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ram_used_percent NUMERIC(5, 2) NOT NULL DEFAULT 0,
     ssd_used_gib DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ssd_used_percent NUMERIC(5, 2) NOT NULL DEFAULT 0,
+    gpu_used_percent NUMERIC(5, 2) NOT NULL DEFAULT 0,
+    gpu_used_gib NUMERIC(15, 2) NOT NULL DEFAULT 0,
     network_rx_bps BIGINT NOT NULL DEFAULT 0,
     network_tx_bps BIGINT NOT NULL DEFAULT 0,
-    load_avg_1m DOUBLE PRECISION NOT NULL DEFAULT 0,
-    load_avg_5m DOUBLE PRECISION NOT NULL DEFAULT 0,
-    load_avg_15m DOUBLE PRECISION NOT NULL DEFAULT 0,
+    disk_read_bps BIGINT NOT NULL DEFAULT 0,
+    disk_write_bps BIGINT NOT NULL DEFAULT 0,
+    source_stream_id VARCHAR(64) NOT NULL DEFAULT '',
+    source_seq BIGINT NOT NULL DEFAULT 0,
     sampled_at TIMESTAMPTZ NOT NULL,
     CONSTRAINT chk_hypervisor_node_metrics_cpu CHECK (cpu_used_percent >= 0 AND cpu_used_percent <= 100),
     CONSTRAINT chk_hypervisor_node_metrics_gib CHECK (ram_used_gib >= 0 AND ssd_used_gib >= 0),
     CONSTRAINT chk_hypervisor_node_metrics_network CHECK (network_rx_bps >= 0 AND network_tx_bps >= 0)
 );
 
+-- Hypervisor Storage Pools Table
 CREATE TABLE IF NOT EXISTS hypervisor_storage_pools (
     id VARCHAR(26) PRIMARY KEY,
     node_id VARCHAR(26) NOT NULL REFERENCES hypervisor_nodes(id) ON DELETE CASCADE,
@@ -70,6 +87,7 @@ CREATE TABLE IF NOT EXISTS hypervisor_storage_pools (
     CONSTRAINT chk_hypervisor_storage_pools_gib CHECK (total_gib >= 0 AND used_gib >= 0)
 );
 
+-- Hypervisor Network Interfaces Table
 CREATE TABLE IF NOT EXISTS hypervisor_network_interfaces (
     id VARCHAR(26) PRIMARY KEY,
     node_id VARCHAR(26) NOT NULL REFERENCES hypervisor_nodes(id) ON DELETE CASCADE,
@@ -86,6 +104,7 @@ CREATE TABLE IF NOT EXISTS hypervisor_network_interfaces (
     CONSTRAINT chk_hypervisor_network_interfaces_speed CHECK (speed_mbps >= 0)
 );
 
+-- VPS Instances Table
 CREATE TABLE IF NOT EXISTS vps_instances (
     id VARCHAR(26) PRIMARY KEY,
     workspace_id VARCHAR(26) NOT NULL,
@@ -112,6 +131,7 @@ CREATE TABLE IF NOT EXISTS vps_instances (
     CONSTRAINT chk_vps_instances_gib CHECK (ram_gib >= 0 AND ssd_gib >= 0)
 );
 
+-- VPS Disks Table
 CREATE TABLE IF NOT EXISTS vps_disks (
     id VARCHAR(26) PRIMARY KEY,
     vps_id VARCHAR(26) NOT NULL REFERENCES vps_instances(id) ON DELETE CASCADE,
@@ -134,6 +154,7 @@ CREATE TABLE IF NOT EXISTS vps_disks (
     CONSTRAINT chk_vps_disks_size_gib CHECK (size_gib >= 0 AND used_gib >= 0)
 );
 
+-- VPS Snapshots Table
 CREATE TABLE IF NOT EXISTS vps_snapshots (
     id VARCHAR(26) PRIMARY KEY,
     vps_id VARCHAR(26) NOT NULL REFERENCES vps_instances(id) ON DELETE CASCADE,
@@ -152,16 +173,26 @@ CREATE TABLE IF NOT EXISTS vps_snapshots (
     CONSTRAINT chk_vps_snapshots_size_gib CHECK (size_gib >= 0)
 );
 
+-- VPS Metrics Table
 CREATE TABLE IF NOT EXISTS vps_metrics (
     id VARCHAR(26) PRIMARY KEY,
     vps_id VARCHAR(26) NOT NULL REFERENCES vps_instances(id) ON DELETE CASCADE,
     cpu_used_percent DOUBLE PRECISION NOT NULL DEFAULT 0,
+    cpu_used_cores NUMERIC(10, 2) NOT NULL DEFAULT 0,
     ram_used_gib DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ram_used_percent NUMERIC(5, 2) NOT NULL DEFAULT 0,
     ssd_used_gib DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ssd_used_percent NUMERIC(5, 2) NOT NULL DEFAULT 0,
+    gpu_used_percent NUMERIC(5, 2) NOT NULL DEFAULT 0,
+    gpu_used_gib NUMERIC(15, 2) NOT NULL DEFAULT 0,
     network_rx_bps BIGINT NOT NULL DEFAULT 0,
     network_tx_bps BIGINT NOT NULL DEFAULT 0,
+    disk_read_bps BIGINT NOT NULL DEFAULT 0,
+    disk_write_bps BIGINT NOT NULL DEFAULT 0,
     disk_iops_read DOUBLE PRECISION NOT NULL DEFAULT 0,
     disk_iops_write DOUBLE PRECISION NOT NULL DEFAULT 0,
+    source_stream_id VARCHAR(64) NOT NULL DEFAULT '',
+    source_seq BIGINT NOT NULL DEFAULT 0,
     sampled_at TIMESTAMPTZ NOT NULL,
     CONSTRAINT chk_vps_metrics_cpu CHECK (cpu_used_percent >= 0 AND cpu_used_percent <= 100),
     CONSTRAINT chk_vps_metrics_gib CHECK (ram_used_gib >= 0 AND ssd_used_gib >= 0),
@@ -169,6 +200,7 @@ CREATE TABLE IF NOT EXISTS vps_metrics (
     CONSTRAINT chk_vps_metrics_iops CHECK (disk_iops_read >= 0 AND disk_iops_write >= 0)
 );
 
+-- VPS Network Interfaces Table
 CREATE TABLE IF NOT EXISTS vps_network_interfaces (
     id VARCHAR(26) PRIMARY KEY,
     vps_id VARCHAR(26) NOT NULL REFERENCES vps_instances(id) ON DELETE CASCADE,
@@ -185,6 +217,7 @@ CREATE TABLE IF NOT EXISTS vps_network_interfaces (
     CONSTRAINT chk_vps_network_interfaces_speed CHECK (speed_mbps >= 0)
 );
 
+-- IP Pools Table
 CREATE TABLE IF NOT EXISTS ip_pools (
     id VARCHAR(26) PRIMARY KEY,
     zone_id VARCHAR(26) NOT NULL,
@@ -204,6 +237,7 @@ CREATE TABLE IF NOT EXISTS ip_pools (
     CONSTRAINT chk_ip_pools_status CHECK (status IN ('active', 'reserved', 'disabled', 'exhausted'))
 );
 
+-- IP Allocations Table
 CREATE TABLE IF NOT EXISTS ip_allocations (
     id VARCHAR(26) PRIMARY KEY,
     pool_id VARCHAR(26) NOT NULL REFERENCES ip_pools(id) ON DELETE RESTRICT,
@@ -219,6 +253,7 @@ CREATE TABLE IF NOT EXISTS ip_allocations (
     CONSTRAINT chk_ip_allocations_status CHECK (status IN ('allocated', 'reserved', 'released'))
 );
 
+-- Hypervisor Events Table
 CREATE TABLE IF NOT EXISTS hypervisor_events (
     id VARCHAR(26) PRIMARY KEY,
     actor_id VARCHAR(26),
@@ -229,4 +264,64 @@ CREATE TABLE IF NOT EXISTS hypervisor_events (
     message TEXT NOT NULL,
     metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Rollup Tables
+CREATE TABLE IF NOT EXISTS hypervisor_node_metric_rollups (
+    id VARCHAR(26) PRIMARY KEY,
+    node_id VARCHAR(26) NOT NULL REFERENCES hypervisor_nodes(id) ON DELETE CASCADE,
+    bucket_started_at TIMESTAMPTZ NOT NULL,
+    bucket_seconds INT NOT NULL,
+    cpu_used_percent_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ram_used_gib_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ssd_used_gib_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    network_rx_bps_avg BIGINT NOT NULL DEFAULT 0,
+    network_tx_bps_avg BIGINT NOT NULL DEFAULT 0,
+    sample_count INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT chk_node_metric_rollups_bucket CHECK (bucket_seconds IN (60, 300)),
+    CONSTRAINT chk_node_metric_rollups_sample_count CHECK (sample_count >= 0)
+);
+
+CREATE TABLE IF NOT EXISTS vps_metric_rollups (
+    id VARCHAR(26) PRIMARY KEY,
+    vps_id VARCHAR(26) NOT NULL REFERENCES vps_instances(id) ON DELETE CASCADE,
+    bucket_started_at TIMESTAMPTZ NOT NULL,
+    bucket_seconds INT NOT NULL,
+    cpu_used_percent_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ram_used_gib_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    ssd_used_gib_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    network_rx_bps_avg BIGINT NOT NULL DEFAULT 0,
+    network_tx_bps_avg BIGINT NOT NULL DEFAULT 0,
+    disk_iops_read_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    disk_iops_write_avg DOUBLE PRECISION NOT NULL DEFAULT 0,
+    sample_count INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT chk_vps_metric_rollups_bucket CHECK (bucket_seconds IN (60, 300)),
+    CONSTRAINT chk_vps_metric_rollups_sample_count CHECK (sample_count >= 0)
+);
+
+-- Agent Commands Table
+CREATE TABLE IF NOT EXISTS hypervisor_agent_commands (
+    id VARCHAR(26) PRIMARY KEY,
+    node_id VARCHAR(26) NOT NULL REFERENCES hypervisor_nodes(id) ON DELETE CASCADE,
+    agent_id VARCHAR(64) NOT NULL,
+    idempotency_key VARCHAR(128) NOT NULL,
+    command_type VARCHAR(64) NOT NULL,
+    payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+    status VARCHAR(32) NOT NULL DEFAULT 'queued',
+    priority INT NOT NULL DEFAULT 100,
+    attempt_count INT NOT NULL DEFAULT 0,
+    max_attempts INT NOT NULL DEFAULT 3,
+    lease_owner VARCHAR(128) NOT NULL DEFAULT '',
+    lease_expires_at TIMESTAMPTZ,
+    result JSONB NOT NULL DEFAULT '{}'::jsonb,
+    last_error TEXT NOT NULL DEFAULT '',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    completed_at TIMESTAMPTZ,
+    CONSTRAINT chk_agent_commands_status CHECK (status IN ('queued', 'running', 'succeeded', 'failed', 'cancelled')),
+    CONSTRAINT chk_agent_commands_attempts CHECK (attempt_count >= 0 AND max_attempts > 0)
 );

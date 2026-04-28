@@ -17,7 +17,9 @@ type HypervisorNode struct {
 	CPUModel     string          `db:"cpu_model"`
 	CPUCores     int             `db:"cpu_cores"`
 	CPUThreads   int             `db:"cpu_threads"`
+	RAMModel     string          `db:"ram_model"`
 	RAMGib       int             `db:"ram_gib"`
+	DiskModel    string          `db:"disk_model"`
 	SSDGib       int             `db:"ssd_gib"`
 	GpuModel     string          `db:"gpu_model"`
 	GpuCount     int             `db:"gpu_count"`
@@ -41,7 +43,9 @@ func HypervisorNodeEntityToModel(v *entity.HypervisorNode) *HypervisorNode {
 		CPUModel:     v.CPUModel,
 		CPUCores:     v.CPUCores,
 		CPUThreads:   v.CPUThreads,
+		RAMModel:     v.RAMModel,
 		RAMGib:       v.RAMGib,
+		DiskModel:    v.DiskModel,
 		SSDGib:       v.SSDGib,
 		GpuModel:     v.GpuModel,
 		GpuCount:     v.GpuCount,
@@ -66,7 +70,9 @@ func HypervisorNodeModelToEntity(v *HypervisorNode) *entity.HypervisorNode {
 		CPUModel:     v.CPUModel,
 		CPUCores:     v.CPUCores,
 		CPUThreads:   v.CPUThreads,
+		RAMModel:     v.RAMModel,
 		RAMGib:       v.RAMGib,
+		DiskModel:    v.DiskModel,
 		SSDGib:       v.SSDGib,
 		GpuModel:     v.GpuModel,
 		GpuCount:     v.GpuCount,

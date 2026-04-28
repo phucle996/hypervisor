@@ -2,14 +2,13 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v3.21.12
-// source: agent/registry/v1/agent_registry.proto
+// source: proto/agent/registry/v1/agent_registry.proto
 
 package agentregistryv1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -21,1190 +20,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-type BootstrapEnrollAgentRequest struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	BootstrapToken   string                 `protobuf:"bytes,1,opt,name=bootstrap_token,json=bootstrapToken,proto3" json:"bootstrap_token,omitempty"`
-	RequestedAgentId string                 `protobuf:"bytes,2,opt,name=requested_agent_id,json=requestedAgentId,proto3" json:"requested_agent_id,omitempty"`
-	CsrPem           string                 `protobuf:"bytes,3,opt,name=csr_pem,json=csrPem,proto3" json:"csr_pem,omitempty"`
-	Hostname         string                 `protobuf:"bytes,4,opt,name=hostname,proto3" json:"hostname,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *BootstrapEnrollAgentRequest) Reset() {
-	*x = BootstrapEnrollAgentRequest{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BootstrapEnrollAgentRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BootstrapEnrollAgentRequest) ProtoMessage() {}
-
-func (x *BootstrapEnrollAgentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BootstrapEnrollAgentRequest.ProtoReflect.Descriptor instead.
-func (*BootstrapEnrollAgentRequest) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *BootstrapEnrollAgentRequest) GetBootstrapToken() string {
-	if x != nil {
-		return x.BootstrapToken
-	}
-	return ""
-}
-
-func (x *BootstrapEnrollAgentRequest) GetRequestedAgentId() string {
-	if x != nil {
-		return x.RequestedAgentId
-	}
-	return ""
-}
-
-func (x *BootstrapEnrollAgentRequest) GetCsrPem() string {
-	if x != nil {
-		return x.CsrPem
-	}
-	return ""
-}
-
-func (x *BootstrapEnrollAgentRequest) GetHostname() string {
-	if x != nil {
-		return x.Hostname
-	}
-	return ""
-}
-
-type BootstrapEnrollAgentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AgentId       string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	ClientCertPem string                 `protobuf:"bytes,2,opt,name=client_cert_pem,json=clientCertPem,proto3" json:"client_cert_pem,omitempty"`
-	CaCertPem     string                 `protobuf:"bytes,3,opt,name=ca_cert_pem,json=caCertPem,proto3" json:"ca_cert_pem,omitempty"`
-	CertNotAfter  *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=cert_not_after,json=certNotAfter,proto3" json:"cert_not_after,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *BootstrapEnrollAgentResponse) Reset() {
-	*x = BootstrapEnrollAgentResponse{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BootstrapEnrollAgentResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BootstrapEnrollAgentResponse) ProtoMessage() {}
-
-func (x *BootstrapEnrollAgentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BootstrapEnrollAgentResponse.ProtoReflect.Descriptor instead.
-func (*BootstrapEnrollAgentResponse) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *BootstrapEnrollAgentResponse) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *BootstrapEnrollAgentResponse) GetClientCertPem() string {
-	if x != nil {
-		return x.ClientCertPem
-	}
-	return ""
-}
-
-func (x *BootstrapEnrollAgentResponse) GetCaCertPem() string {
-	if x != nil {
-		return x.CaCertPem
-	}
-	return ""
-}
-
-func (x *BootstrapEnrollAgentResponse) GetCertNotAfter() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CertNotAfter
-	}
-	return nil
-}
-
-type RegisterHost struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	AgentId          string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId           string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	Hostname         string                 `protobuf:"bytes,3,opt,name=hostname,proto3" json:"hostname,omitempty"`
-	PrivateIp        string                 `protobuf:"bytes,4,opt,name=private_ip,json=privateIp,proto3" json:"private_ip,omitempty"`
-	HypervisorType   string                 `protobuf:"bytes,5,opt,name=hypervisor_type,json=hypervisorType,proto3" json:"hypervisor_type,omitempty"`
-	AgentVersion     string                 `protobuf:"bytes,6,opt,name=agent_version,json=agentVersion,proto3" json:"agent_version,omitempty"`
-	CapabilitiesJson string                 `protobuf:"bytes,7,opt,name=capabilities_json,json=capabilitiesJson,proto3" json:"capabilities_json,omitempty"`
-	CpuCores         int32                  `protobuf:"varint,8,opt,name=cpu_cores,json=cpuCores,proto3" json:"cpu_cores,omitempty"`
-	MemoryBytes      int64                  `protobuf:"varint,9,opt,name=memory_bytes,json=memoryBytes,proto3" json:"memory_bytes,omitempty"`
-	DiskBytes        int64                  `protobuf:"varint,10,opt,name=disk_bytes,json=diskBytes,proto3" json:"disk_bytes,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *RegisterHost) Reset() {
-	*x = RegisterHost{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RegisterHost) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RegisterHost) ProtoMessage() {}
-
-func (x *RegisterHost) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RegisterHost.ProtoReflect.Descriptor instead.
-func (*RegisterHost) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *RegisterHost) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetHostname() string {
-	if x != nil {
-		return x.Hostname
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetPrivateIp() string {
-	if x != nil {
-		return x.PrivateIp
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetHypervisorType() string {
-	if x != nil {
-		return x.HypervisorType
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetAgentVersion() string {
-	if x != nil {
-		return x.AgentVersion
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetCapabilitiesJson() string {
-	if x != nil {
-		return x.CapabilitiesJson
-	}
-	return ""
-}
-
-func (x *RegisterHost) GetCpuCores() int32 {
-	if x != nil {
-		return x.CpuCores
-	}
-	return 0
-}
-
-func (x *RegisterHost) GetMemoryBytes() int64 {
-	if x != nil {
-		return x.MemoryBytes
-	}
-	return 0
-}
-
-func (x *RegisterHost) GetDiskBytes() int64 {
-	if x != nil {
-		return x.DiskBytes
-	}
-	return 0
-}
-
-type AgentHeartbeat struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AgentId       string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId        string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
-	LastSeenAt    *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_seen_at,json=lastSeenAt,proto3" json:"last_seen_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AgentHeartbeat) Reset() {
-	*x = AgentHeartbeat{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AgentHeartbeat) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AgentHeartbeat) ProtoMessage() {}
-
-func (x *AgentHeartbeat) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AgentHeartbeat.ProtoReflect.Descriptor instead.
-func (*AgentHeartbeat) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *AgentHeartbeat) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *AgentHeartbeat) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *AgentHeartbeat) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *AgentHeartbeat) GetLastSeenAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastSeenAt
-	}
-	return nil
-}
-
-type AgentCommand struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	CommandId      string                 `protobuf:"bytes,1,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`
-	IdempotencyKey string                 `protobuf:"bytes,2,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`
-	Type           string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
-	PayloadJson    string                 `protobuf:"bytes,4,opt,name=payload_json,json=payloadJson,proto3" json:"payload_json,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *AgentCommand) Reset() {
-	*x = AgentCommand{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AgentCommand) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AgentCommand) ProtoMessage() {}
-
-func (x *AgentCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AgentCommand.ProtoReflect.Descriptor instead.
-func (*AgentCommand) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *AgentCommand) GetCommandId() string {
-	if x != nil {
-		return x.CommandId
-	}
-	return ""
-}
-
-func (x *AgentCommand) GetIdempotencyKey() string {
-	if x != nil {
-		return x.IdempotencyKey
-	}
-	return ""
-}
-
-func (x *AgentCommand) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
-
-func (x *AgentCommand) GetPayloadJson() string {
-	if x != nil {
-		return x.PayloadJson
-	}
-	return ""
-}
-
-type RegisterAck struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	HostId        string                 `protobuf:"bytes,1,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	NodeId        string                 `protobuf:"bytes,3,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RegisterAck) Reset() {
-	*x = RegisterAck{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RegisterAck) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RegisterAck) ProtoMessage() {}
-
-func (x *RegisterAck) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RegisterAck.ProtoReflect.Descriptor instead.
-func (*RegisterAck) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *RegisterAck) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *RegisterAck) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *RegisterAck) GetNodeId() string {
-	if x != nil {
-		return x.NodeId
-	}
-	return ""
-}
-
-type HeartbeatAck struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	HostId        string                 `protobuf:"bytes,1,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *HeartbeatAck) Reset() {
-	*x = HeartbeatAck{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *HeartbeatAck) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HeartbeatAck) ProtoMessage() {}
-
-func (x *HeartbeatAck) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HeartbeatAck.ProtoReflect.Descriptor instead.
-func (*HeartbeatAck) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *HeartbeatAck) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *HeartbeatAck) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-type StoragePoolInventory struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Driver        string                 `protobuf:"bytes,2,opt,name=driver,proto3" json:"driver,omitempty"`
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
-	TotalBytes    int64                  `protobuf:"varint,4,opt,name=total_bytes,json=totalBytes,proto3" json:"total_bytes,omitempty"`
-	UsedBytes     int64                  `protobuf:"varint,5,opt,name=used_bytes,json=usedBytes,proto3" json:"used_bytes,omitempty"`
-	Status        string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
-	MetadataJson  string                 `protobuf:"bytes,7,opt,name=metadata_json,json=metadataJson,proto3" json:"metadata_json,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *StoragePoolInventory) Reset() {
-	*x = StoragePoolInventory{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *StoragePoolInventory) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*StoragePoolInventory) ProtoMessage() {}
-
-func (x *StoragePoolInventory) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StoragePoolInventory.ProtoReflect.Descriptor instead.
-func (*StoragePoolInventory) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *StoragePoolInventory) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *StoragePoolInventory) GetDriver() string {
-	if x != nil {
-		return x.Driver
-	}
-	return ""
-}
-
-func (x *StoragePoolInventory) GetPath() string {
-	if x != nil {
-		return x.Path
-	}
-	return ""
-}
-
-func (x *StoragePoolInventory) GetTotalBytes() int64 {
-	if x != nil {
-		return x.TotalBytes
-	}
-	return 0
-}
-
-func (x *StoragePoolInventory) GetUsedBytes() int64 {
-	if x != nil {
-		return x.UsedBytes
-	}
-	return 0
-}
-
-func (x *StoragePoolInventory) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *StoragePoolInventory) GetMetadataJson() string {
-	if x != nil {
-		return x.MetadataJson
-	}
-	return ""
-}
-
-type NetworkInterfaceInventory struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	MacAddress    string                 `protobuf:"bytes,2,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
-	Ipv4Address   string                 `protobuf:"bytes,3,opt,name=ipv4_address,json=ipv4Address,proto3" json:"ipv4_address,omitempty"`
-	Ipv6Address   string                 `protobuf:"bytes,4,opt,name=ipv6_address,json=ipv6Address,proto3" json:"ipv6_address,omitempty"`
-	SpeedMbps     int32                  `protobuf:"varint,5,opt,name=speed_mbps,json=speedMbps,proto3" json:"speed_mbps,omitempty"`
-	Status        string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
-	MetadataJson  string                 `protobuf:"bytes,7,opt,name=metadata_json,json=metadataJson,proto3" json:"metadata_json,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *NetworkInterfaceInventory) Reset() {
-	*x = NetworkInterfaceInventory{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *NetworkInterfaceInventory) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*NetworkInterfaceInventory) ProtoMessage() {}
-
-func (x *NetworkInterfaceInventory) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NetworkInterfaceInventory.ProtoReflect.Descriptor instead.
-func (*NetworkInterfaceInventory) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *NetworkInterfaceInventory) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *NetworkInterfaceInventory) GetMacAddress() string {
-	if x != nil {
-		return x.MacAddress
-	}
-	return ""
-}
-
-func (x *NetworkInterfaceInventory) GetIpv4Address() string {
-	if x != nil {
-		return x.Ipv4Address
-	}
-	return ""
-}
-
-func (x *NetworkInterfaceInventory) GetIpv6Address() string {
-	if x != nil {
-		return x.Ipv6Address
-	}
-	return ""
-}
-
-func (x *NetworkInterfaceInventory) GetSpeedMbps() int32 {
-	if x != nil {
-		return x.SpeedMbps
-	}
-	return 0
-}
-
-func (x *NetworkInterfaceInventory) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *NetworkInterfaceInventory) GetMetadataJson() string {
-	if x != nil {
-		return x.MetadataJson
-	}
-	return ""
-}
-
-type HostInventory struct {
-	state             protoimpl.MessageState       `protogen:"open.v1"`
-	AgentId           string                       `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId            string                       `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	StoragePools      []*StoragePoolInventory      `protobuf:"bytes,3,rep,name=storage_pools,json=storagePools,proto3" json:"storage_pools,omitempty"`
-	NetworkInterfaces []*NetworkInterfaceInventory `protobuf:"bytes,4,rep,name=network_interfaces,json=networkInterfaces,proto3" json:"network_interfaces,omitempty"`
-	CollectedAt       *timestamppb.Timestamp       `protobuf:"bytes,5,opt,name=collected_at,json=collectedAt,proto3" json:"collected_at,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *HostInventory) Reset() {
-	*x = HostInventory{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *HostInventory) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HostInventory) ProtoMessage() {}
-
-func (x *HostInventory) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HostInventory.ProtoReflect.Descriptor instead.
-func (*HostInventory) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *HostInventory) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *HostInventory) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *HostInventory) GetStoragePools() []*StoragePoolInventory {
-	if x != nil {
-		return x.StoragePools
-	}
-	return nil
-}
-
-func (x *HostInventory) GetNetworkInterfaces() []*NetworkInterfaceInventory {
-	if x != nil {
-		return x.NetworkInterfaces
-	}
-	return nil
-}
-
-func (x *HostInventory) GetCollectedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CollectedAt
-	}
-	return nil
-}
-
-type NodeMetricSample struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	AgentId        string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId         string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	CpuUsedPercent float64                `protobuf:"fixed64,3,opt,name=cpu_used_percent,json=cpuUsedPercent,proto3" json:"cpu_used_percent,omitempty"`
-	RamUsedGib     float64                `protobuf:"fixed64,4,opt,name=ram_used_gib,json=ramUsedGib,proto3" json:"ram_used_gib,omitempty"`
-	SsdUsedGib     float64                `protobuf:"fixed64,5,opt,name=ssd_used_gib,json=ssdUsedGib,proto3" json:"ssd_used_gib,omitempty"`
-	NetworkRxBps   int64                  `protobuf:"varint,6,opt,name=network_rx_bps,json=networkRxBps,proto3" json:"network_rx_bps,omitempty"`
-	NetworkTxBps   int64                  `protobuf:"varint,7,opt,name=network_tx_bps,json=networkTxBps,proto3" json:"network_tx_bps,omitempty"`
-	LoadAvg_1M     float64                `protobuf:"fixed64,8,opt,name=load_avg_1m,json=loadAvg1m,proto3" json:"load_avg_1m,omitempty"`
-	LoadAvg_5M     float64                `protobuf:"fixed64,9,opt,name=load_avg_5m,json=loadAvg5m,proto3" json:"load_avg_5m,omitempty"`
-	LoadAvg_15M    float64                `protobuf:"fixed64,10,opt,name=load_avg_15m,json=loadAvg15m,proto3" json:"load_avg_15m,omitempty"`
-	SampledAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=sampled_at,json=sampledAt,proto3" json:"sampled_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *NodeMetricSample) Reset() {
-	*x = NodeMetricSample{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *NodeMetricSample) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*NodeMetricSample) ProtoMessage() {}
-
-func (x *NodeMetricSample) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NodeMetricSample.ProtoReflect.Descriptor instead.
-func (*NodeMetricSample) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *NodeMetricSample) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *NodeMetricSample) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *NodeMetricSample) GetCpuUsedPercent() float64 {
-	if x != nil {
-		return x.CpuUsedPercent
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetRamUsedGib() float64 {
-	if x != nil {
-		return x.RamUsedGib
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetSsdUsedGib() float64 {
-	if x != nil {
-		return x.SsdUsedGib
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetNetworkRxBps() int64 {
-	if x != nil {
-		return x.NetworkRxBps
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetNetworkTxBps() int64 {
-	if x != nil {
-		return x.NetworkTxBps
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetLoadAvg_1M() float64 {
-	if x != nil {
-		return x.LoadAvg_1M
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetLoadAvg_5M() float64 {
-	if x != nil {
-		return x.LoadAvg_5M
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetLoadAvg_15M() float64 {
-	if x != nil {
-		return x.LoadAvg_15M
-	}
-	return 0
-}
-
-func (x *NodeMetricSample) GetSampledAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.SampledAt
-	}
-	return nil
-}
-
-type VPSMetricSample struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	AgentId        string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId         string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	VpsId          string                 `protobuf:"bytes,3,opt,name=vps_id,json=vpsId,proto3" json:"vps_id,omitempty"`
-	CpuUsedPercent float64                `protobuf:"fixed64,4,opt,name=cpu_used_percent,json=cpuUsedPercent,proto3" json:"cpu_used_percent,omitempty"`
-	RamUsedGib     float64                `protobuf:"fixed64,5,opt,name=ram_used_gib,json=ramUsedGib,proto3" json:"ram_used_gib,omitempty"`
-	SsdUsedGib     float64                `protobuf:"fixed64,6,opt,name=ssd_used_gib,json=ssdUsedGib,proto3" json:"ssd_used_gib,omitempty"`
-	NetworkRxBps   int64                  `protobuf:"varint,7,opt,name=network_rx_bps,json=networkRxBps,proto3" json:"network_rx_bps,omitempty"`
-	NetworkTxBps   int64                  `protobuf:"varint,8,opt,name=network_tx_bps,json=networkTxBps,proto3" json:"network_tx_bps,omitempty"`
-	DiskIopsRead   float64                `protobuf:"fixed64,9,opt,name=disk_iops_read,json=diskIopsRead,proto3" json:"disk_iops_read,omitempty"`
-	DiskIopsWrite  float64                `protobuf:"fixed64,10,opt,name=disk_iops_write,json=diskIopsWrite,proto3" json:"disk_iops_write,omitempty"`
-	SampledAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=sampled_at,json=sampledAt,proto3" json:"sampled_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *VPSMetricSample) Reset() {
-	*x = VPSMetricSample{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *VPSMetricSample) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*VPSMetricSample) ProtoMessage() {}
-
-func (x *VPSMetricSample) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use VPSMetricSample.ProtoReflect.Descriptor instead.
-func (*VPSMetricSample) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *VPSMetricSample) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *VPSMetricSample) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *VPSMetricSample) GetVpsId() string {
-	if x != nil {
-		return x.VpsId
-	}
-	return ""
-}
-
-func (x *VPSMetricSample) GetCpuUsedPercent() float64 {
-	if x != nil {
-		return x.CpuUsedPercent
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetRamUsedGib() float64 {
-	if x != nil {
-		return x.RamUsedGib
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetSsdUsedGib() float64 {
-	if x != nil {
-		return x.SsdUsedGib
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetNetworkRxBps() int64 {
-	if x != nil {
-		return x.NetworkRxBps
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetNetworkTxBps() int64 {
-	if x != nil {
-		return x.NetworkTxBps
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetDiskIopsRead() float64 {
-	if x != nil {
-		return x.DiskIopsRead
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetDiskIopsWrite() float64 {
-	if x != nil {
-		return x.DiskIopsWrite
-	}
-	return 0
-}
-
-func (x *VPSMetricSample) GetSampledAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.SampledAt
-	}
-	return nil
-}
-
-type AgentCommandResult struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AgentId       string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId        string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	CommandId     string                 `protobuf:"bytes,3,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`
-	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
-	ResultJson    string                 `protobuf:"bytes,5,opt,name=result_json,json=resultJson,proto3" json:"result_json,omitempty"`
-	ErrorMessage  string                 `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	CompletedAt   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AgentCommandResult) Reset() {
-	*x = AgentCommandResult{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AgentCommandResult) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AgentCommandResult) ProtoMessage() {}
-
-func (x *AgentCommandResult) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[12]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AgentCommandResult.ProtoReflect.Descriptor instead.
-func (*AgentCommandResult) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *AgentCommandResult) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *AgentCommandResult) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *AgentCommandResult) GetCommandId() string {
-	if x != nil {
-		return x.CommandId
-	}
-	return ""
-}
-
-func (x *AgentCommandResult) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *AgentCommandResult) GetResultJson() string {
-	if x != nil {
-		return x.ResultJson
-	}
-	return ""
-}
-
-func (x *AgentCommandResult) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
-	}
-	return ""
-}
-
-func (x *AgentCommandResult) GetCompletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CompletedAt
-	}
-	return nil
-}
-
-type AgentEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AgentId       string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	HostId        string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	Severity      string                 `protobuf:"bytes,3,opt,name=severity,proto3" json:"severity,omitempty"`
-	Message       string                 `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
-	MetadataJson  string                 `protobuf:"bytes,5,opt,name=metadata_json,json=metadataJson,proto3" json:"metadata_json,omitempty"`
-	OccurredAt    *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=occurred_at,json=occurredAt,proto3" json:"occurred_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AgentEvent) Reset() {
-	*x = AgentEvent{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AgentEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AgentEvent) ProtoMessage() {}
-
-func (x *AgentEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AgentEvent.ProtoReflect.Descriptor instead.
-func (*AgentEvent) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *AgentEvent) GetAgentId() string {
-	if x != nil {
-		return x.AgentId
-	}
-	return ""
-}
-
-func (x *AgentEvent) GetHostId() string {
-	if x != nil {
-		return x.HostId
-	}
-	return ""
-}
-
-func (x *AgentEvent) GetSeverity() string {
-	if x != nil {
-		return x.Severity
-	}
-	return ""
-}
-
-func (x *AgentEvent) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
-func (x *AgentEvent) GetMetadataJson() string {
-	if x != nil {
-		return x.MetadataJson
-	}
-	return ""
-}
-
-func (x *AgentEvent) GetOccurredAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.OccurredAt
-	}
-	return nil
-}
 
 type AgentToHypervisor struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
@@ -1218,7 +33,6 @@ type AgentToHypervisor struct {
 	//	*AgentToHypervisor_NodeMetric
 	//	*AgentToHypervisor_VpsMetric
 	//	*AgentToHypervisor_CommandResult
-	//	*AgentToHypervisor_Event
 	Message       isAgentToHypervisor_Message `protobuf_oneof:"message"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1226,7 +40,7 @@ type AgentToHypervisor struct {
 
 func (x *AgentToHypervisor) Reset() {
 	*x = AgentToHypervisor{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[14]
+	mi := &file_proto_agent_registry_v1_agent_registry_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1238,7 +52,7 @@ func (x *AgentToHypervisor) String() string {
 func (*AgentToHypervisor) ProtoMessage() {}
 
 func (x *AgentToHypervisor) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[14]
+	mi := &file_proto_agent_registry_v1_agent_registry_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1251,7 +65,7 @@ func (x *AgentToHypervisor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AgentToHypervisor.ProtoReflect.Descriptor instead.
 func (*AgentToHypervisor) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{14}
+	return file_proto_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *AgentToHypervisor) GetStreamId() string {
@@ -1329,45 +143,32 @@ func (x *AgentToHypervisor) GetCommandResult() *AgentCommandResult {
 	return nil
 }
 
-func (x *AgentToHypervisor) GetEvent() *AgentEvent {
-	if x != nil {
-		if x, ok := x.Message.(*AgentToHypervisor_Event); ok {
-			return x.Event
-		}
-	}
-	return nil
-}
-
 type isAgentToHypervisor_Message interface {
 	isAgentToHypervisor_Message()
 }
 
 type AgentToHypervisor_RegisterHost struct {
-	RegisterHost *RegisterHost `protobuf:"bytes,10,opt,name=register_host,json=registerHost,proto3,oneof"`
+	RegisterHost *RegisterHost `protobuf:"bytes,3,opt,name=register_host,json=registerHost,proto3,oneof"`
 }
 
 type AgentToHypervisor_Heartbeat struct {
-	Heartbeat *AgentHeartbeat `protobuf:"bytes,11,opt,name=heartbeat,proto3,oneof"`
+	Heartbeat *AgentHeartbeat `protobuf:"bytes,4,opt,name=heartbeat,proto3,oneof"`
 }
 
 type AgentToHypervisor_HostInventory struct {
-	HostInventory *HostInventory `protobuf:"bytes,12,opt,name=host_inventory,json=hostInventory,proto3,oneof"`
+	HostInventory *HostInventory `protobuf:"bytes,5,opt,name=host_inventory,json=hostInventory,proto3,oneof"`
 }
 
 type AgentToHypervisor_NodeMetric struct {
-	NodeMetric *NodeMetricSample `protobuf:"bytes,13,opt,name=node_metric,json=nodeMetric,proto3,oneof"`
+	NodeMetric *NodeMetricSample `protobuf:"bytes,6,opt,name=node_metric,json=nodeMetric,proto3,oneof"`
 }
 
 type AgentToHypervisor_VpsMetric struct {
-	VpsMetric *VPSMetricSample `protobuf:"bytes,14,opt,name=vps_metric,json=vpsMetric,proto3,oneof"`
+	VpsMetric *VPSMetricSample `protobuf:"bytes,7,opt,name=vps_metric,json=vpsMetric,proto3,oneof"`
 }
 
 type AgentToHypervisor_CommandResult struct {
-	CommandResult *AgentCommandResult `protobuf:"bytes,15,opt,name=command_result,json=commandResult,proto3,oneof"`
-}
-
-type AgentToHypervisor_Event struct {
-	Event *AgentEvent `protobuf:"bytes,16,opt,name=event,proto3,oneof"`
+	CommandResult *AgentCommandResult `protobuf:"bytes,8,opt,name=command_result,json=commandResult,proto3,oneof"`
 }
 
 func (*AgentToHypervisor_RegisterHost) isAgentToHypervisor_Message() {}
@@ -1382,10 +183,10 @@ func (*AgentToHypervisor_VpsMetric) isAgentToHypervisor_Message() {}
 
 func (*AgentToHypervisor_CommandResult) isAgentToHypervisor_Message() {}
 
-func (*AgentToHypervisor_Event) isAgentToHypervisor_Message() {}
-
 type HypervisorToAgent struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	StreamId string                 `protobuf:"bytes,1,opt,name=stream_id,json=streamId,proto3" json:"stream_id,omitempty"`
+	Seq      uint64                 `protobuf:"varint,2,opt,name=seq,proto3" json:"seq,omitempty"`
 	// Types that are valid to be assigned to Message:
 	//
 	//	*HypervisorToAgent_RegisterAck
@@ -1398,7 +199,7 @@ type HypervisorToAgent struct {
 
 func (x *HypervisorToAgent) Reset() {
 	*x = HypervisorToAgent{}
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[15]
+	mi := &file_proto_agent_registry_v1_agent_registry_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1410,7 +211,7 @@ func (x *HypervisorToAgent) String() string {
 func (*HypervisorToAgent) ProtoMessage() {}
 
 func (x *HypervisorToAgent) ProtoReflect() protoreflect.Message {
-	mi := &file_agent_registry_v1_agent_registry_proto_msgTypes[15]
+	mi := &file_proto_agent_registry_v1_agent_registry_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1423,7 +224,21 @@ func (x *HypervisorToAgent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HypervisorToAgent.ProtoReflect.Descriptor instead.
 func (*HypervisorToAgent) Descriptor() ([]byte, []int) {
-	return file_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{15}
+	return file_proto_agent_registry_v1_agent_registry_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *HypervisorToAgent) GetStreamId() string {
+	if x != nil {
+		return x.StreamId
+	}
+	return ""
+}
+
+func (x *HypervisorToAgent) GetSeq() uint64 {
+	if x != nil {
+		return x.Seq
+	}
+	return 0
 }
 
 func (x *HypervisorToAgent) GetMessage() isHypervisorToAgent_Message {
@@ -1465,15 +280,15 @@ type isHypervisorToAgent_Message interface {
 }
 
 type HypervisorToAgent_RegisterAck struct {
-	RegisterAck *RegisterAck `protobuf:"bytes,1,opt,name=register_ack,json=registerAck,proto3,oneof"`
+	RegisterAck *RegisterAck `protobuf:"bytes,3,opt,name=register_ack,json=registerAck,proto3,oneof"`
 }
 
 type HypervisorToAgent_HeartbeatAck struct {
-	HeartbeatAck *HeartbeatAck `protobuf:"bytes,2,opt,name=heartbeat_ack,json=heartbeatAck,proto3,oneof"`
+	HeartbeatAck *HeartbeatAck `protobuf:"bytes,4,opt,name=heartbeat_ack,json=heartbeatAck,proto3,oneof"`
 }
 
 type HypervisorToAgent_Command struct {
-	Command *AgentCommand `protobuf:"bytes,3,opt,name=command,proto3,oneof"`
+	Command *AgentCommand `protobuf:"bytes,5,opt,name=command,proto3,oneof"`
 }
 
 func (*HypervisorToAgent_RegisterAck) isHypervisorToAgent_Message() {}
@@ -1482,233 +297,100 @@ func (*HypervisorToAgent_HeartbeatAck) isHypervisorToAgent_Message() {}
 
 func (*HypervisorToAgent_Command) isHypervisorToAgent_Message() {}
 
-var File_agent_registry_v1_agent_registry_proto protoreflect.FileDescriptor
+var File_proto_agent_registry_v1_agent_registry_proto protoreflect.FileDescriptor
 
-const file_agent_registry_v1_agent_registry_proto_rawDesc = "" +
+const file_proto_agent_registry_v1_agent_registry_proto_rawDesc = "" +
 	"\n" +
-	"&agent/registry/v1/agent_registry.proto\x12\x11agent.registry.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x01\n" +
-	"\x1bBootstrapEnrollAgentRequest\x12'\n" +
-	"\x0fbootstrap_token\x18\x01 \x01(\tR\x0ebootstrapToken\x12,\n" +
-	"\x12requested_agent_id\x18\x02 \x01(\tR\x10requestedAgentId\x12\x17\n" +
-	"\acsr_pem\x18\x03 \x01(\tR\x06csrPem\x12\x1a\n" +
-	"\bhostname\x18\x04 \x01(\tR\bhostname\"\xc3\x01\n" +
-	"\x1cBootstrapEnrollAgentResponse\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12&\n" +
-	"\x0fclient_cert_pem\x18\x02 \x01(\tR\rclientCertPem\x12\x1e\n" +
-	"\vca_cert_pem\x18\x03 \x01(\tR\tcaCertPem\x12@\n" +
-	"\x0ecert_not_after\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\fcertNotAfter\"\xd7\x02\n" +
-	"\fRegisterHost\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x1a\n" +
-	"\bhostname\x18\x03 \x01(\tR\bhostname\x12\x1d\n" +
-	"\n" +
-	"private_ip\x18\x04 \x01(\tR\tprivateIp\x12'\n" +
-	"\x0fhypervisor_type\x18\x05 \x01(\tR\x0ehypervisorType\x12#\n" +
-	"\ragent_version\x18\x06 \x01(\tR\fagentVersion\x12+\n" +
-	"\x11capabilities_json\x18\a \x01(\tR\x10capabilitiesJson\x12\x1b\n" +
-	"\tcpu_cores\x18\b \x01(\x05R\bcpuCores\x12!\n" +
-	"\fmemory_bytes\x18\t \x01(\x03R\vmemoryBytes\x12\x1d\n" +
-	"\n" +
-	"disk_bytes\x18\n" +
-	" \x01(\x03R\tdiskBytes\"\x9a\x01\n" +
-	"\x0eAgentHeartbeat\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\tR\x06status\x12<\n" +
-	"\flast_seen_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"lastSeenAt\"\x8d\x01\n" +
-	"\fAgentCommand\x12\x1d\n" +
-	"\n" +
-	"command_id\x18\x01 \x01(\tR\tcommandId\x12'\n" +
-	"\x0fidempotency_key\x18\x02 \x01(\tR\x0eidempotencyKey\x12\x12\n" +
-	"\x04type\x18\x03 \x01(\tR\x04type\x12!\n" +
-	"\fpayload_json\x18\x04 \x01(\tR\vpayloadJson\"W\n" +
-	"\vRegisterAck\x12\x17\n" +
-	"\ahost_id\x18\x01 \x01(\tR\x06hostId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\x12\x17\n" +
-	"\anode_id\x18\x03 \x01(\tR\x06nodeId\"?\n" +
-	"\fHeartbeatAck\x12\x17\n" +
-	"\ahost_id\x18\x01 \x01(\tR\x06hostId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"\xd3\x01\n" +
-	"\x14StoragePoolInventory\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
-	"\x06driver\x18\x02 \x01(\tR\x06driver\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x1f\n" +
-	"\vtotal_bytes\x18\x04 \x01(\x03R\n" +
-	"totalBytes\x12\x1d\n" +
-	"\n" +
-	"used_bytes\x18\x05 \x01(\x03R\tusedBytes\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\tR\x06status\x12#\n" +
-	"\rmetadata_json\x18\a \x01(\tR\fmetadataJson\"\xf2\x01\n" +
-	"\x19NetworkInterfaceInventory\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1f\n" +
-	"\vmac_address\x18\x02 \x01(\tR\n" +
-	"macAddress\x12!\n" +
-	"\fipv4_address\x18\x03 \x01(\tR\vipv4Address\x12!\n" +
-	"\fipv6_address\x18\x04 \x01(\tR\vipv6Address\x12\x1d\n" +
-	"\n" +
-	"speed_mbps\x18\x05 \x01(\x05R\tspeedMbps\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\tR\x06status\x12#\n" +
-	"\rmetadata_json\x18\a \x01(\tR\fmetadataJson\"\xad\x02\n" +
-	"\rHostInventory\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12L\n" +
-	"\rstorage_pools\x18\x03 \x03(\v2'.agent.registry.v1.StoragePoolInventoryR\fstoragePools\x12[\n" +
-	"\x12network_interfaces\x18\x04 \x03(\v2,.agent.registry.v1.NetworkInterfaceInventoryR\x11networkInterfaces\x12=\n" +
-	"\fcollected_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vcollectedAt\"\x9d\x03\n" +
-	"\x10NodeMetricSample\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12(\n" +
-	"\x10cpu_used_percent\x18\x03 \x01(\x01R\x0ecpuUsedPercent\x12 \n" +
-	"\fram_used_gib\x18\x04 \x01(\x01R\n" +
-	"ramUsedGib\x12 \n" +
-	"\fssd_used_gib\x18\x05 \x01(\x01R\n" +
-	"ssdUsedGib\x12$\n" +
-	"\x0enetwork_rx_bps\x18\x06 \x01(\x03R\fnetworkRxBps\x12$\n" +
-	"\x0enetwork_tx_bps\x18\a \x01(\x03R\fnetworkTxBps\x12\x1e\n" +
-	"\vload_avg_1m\x18\b \x01(\x01R\tloadAvg1m\x12\x1e\n" +
-	"\vload_avg_5m\x18\t \x01(\x01R\tloadAvg5m\x12 \n" +
-	"\fload_avg_15m\x18\n" +
-	" \x01(\x01R\n" +
-	"loadAvg15m\x129\n" +
-	"\n" +
-	"sampled_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tsampledAt\"\x9f\x03\n" +
-	"\x0fVPSMetricSample\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x15\n" +
-	"\x06vps_id\x18\x03 \x01(\tR\x05vpsId\x12(\n" +
-	"\x10cpu_used_percent\x18\x04 \x01(\x01R\x0ecpuUsedPercent\x12 \n" +
-	"\fram_used_gib\x18\x05 \x01(\x01R\n" +
-	"ramUsedGib\x12 \n" +
-	"\fssd_used_gib\x18\x06 \x01(\x01R\n" +
-	"ssdUsedGib\x12$\n" +
-	"\x0enetwork_rx_bps\x18\a \x01(\x03R\fnetworkRxBps\x12$\n" +
-	"\x0enetwork_tx_bps\x18\b \x01(\x03R\fnetworkTxBps\x12$\n" +
-	"\x0edisk_iops_read\x18\t \x01(\x01R\fdiskIopsRead\x12&\n" +
-	"\x0fdisk_iops_write\x18\n" +
-	" \x01(\x01R\rdiskIopsWrite\x129\n" +
-	"\n" +
-	"sampled_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tsampledAt\"\x84\x02\n" +
-	"\x12AgentCommandResult\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x1d\n" +
-	"\n" +
-	"command_id\x18\x03 \x01(\tR\tcommandId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\x12\x1f\n" +
-	"\vresult_json\x18\x05 \x01(\tR\n" +
-	"resultJson\x12#\n" +
-	"\rerror_message\x18\x06 \x01(\tR\ferrorMessage\x12=\n" +
-	"\fcompleted_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\"\xd8\x01\n" +
-	"\n" +
-	"AgentEvent\x12\x19\n" +
-	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x1a\n" +
-	"\bseverity\x18\x03 \x01(\tR\bseverity\x12\x18\n" +
-	"\amessage\x18\x04 \x01(\tR\amessage\x12#\n" +
-	"\rmetadata_json\x18\x05 \x01(\tR\fmetadataJson\x12;\n" +
-	"\voccurred_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"occurredAt\"\xb7\x04\n" +
+	",proto/agent/registry/v1/agent_registry.proto\x12\x11agent.registry.v1\x1a*proto/agent/registry/v1/agent_common.proto\x1a.proto/agent/registry/v1/agent_enrollment.proto\x1a-proto/agent/registry/v1/agent_telemetry.proto\"\x80\x04\n" +
 	"\x11AgentToHypervisor\x12\x1b\n" +
 	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
 	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12F\n" +
-	"\rregister_host\x18\n" +
-	" \x01(\v2\x1f.agent.registry.v1.RegisterHostH\x00R\fregisterHost\x12A\n" +
-	"\theartbeat\x18\v \x01(\v2!.agent.registry.v1.AgentHeartbeatH\x00R\theartbeat\x12I\n" +
-	"\x0ehost_inventory\x18\f \x01(\v2 .agent.registry.v1.HostInventoryH\x00R\rhostInventory\x12F\n" +
-	"\vnode_metric\x18\r \x01(\v2#.agent.registry.v1.NodeMetricSampleH\x00R\n" +
+	"\rregister_host\x18\x03 \x01(\v2\x1f.agent.registry.v1.RegisterHostH\x00R\fregisterHost\x12A\n" +
+	"\theartbeat\x18\x04 \x01(\v2!.agent.registry.v1.AgentHeartbeatH\x00R\theartbeat\x12I\n" +
+	"\x0ehost_inventory\x18\x05 \x01(\v2 .agent.registry.v1.HostInventoryH\x00R\rhostInventory\x12F\n" +
+	"\vnode_metric\x18\x06 \x01(\v2#.agent.registry.v1.NodeMetricSampleH\x00R\n" +
 	"nodeMetric\x12C\n" +
 	"\n" +
-	"vps_metric\x18\x0e \x01(\v2\".agent.registry.v1.VPSMetricSampleH\x00R\tvpsMetric\x12N\n" +
-	"\x0ecommand_result\x18\x0f \x01(\v2%.agent.registry.v1.AgentCommandResultH\x00R\rcommandResult\x125\n" +
-	"\x05event\x18\x10 \x01(\v2\x1d.agent.registry.v1.AgentEventH\x00R\x05eventB\t\n" +
-	"\amessage\"\xe8\x01\n" +
-	"\x11HypervisorToAgent\x12C\n" +
-	"\fregister_ack\x18\x01 \x01(\v2\x1e.agent.registry.v1.RegisterAckH\x00R\vregisterAck\x12F\n" +
-	"\rheartbeat_ack\x18\x02 \x01(\v2\x1f.agent.registry.v1.HeartbeatAckH\x00R\fheartbeatAck\x12;\n" +
-	"\acommand\x18\x03 \x01(\v2\x1f.agent.registry.v1.AgentCommandH\x00R\acommandB\t\n" +
+	"vps_metric\x18\a \x01(\v2\".agent.registry.v1.VPSMetricSampleH\x00R\tvpsMetric\x12N\n" +
+	"\x0ecommand_result\x18\b \x01(\v2%.agent.registry.v1.AgentCommandResultH\x00R\rcommandResultB\t\n" +
+	"\amessage\"\x97\x02\n" +
+	"\x11HypervisorToAgent\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12C\n" +
+	"\fregister_ack\x18\x03 \x01(\v2\x1e.agent.registry.v1.RegisterAckH\x00R\vregisterAck\x12F\n" +
+	"\rheartbeat_ack\x18\x04 \x01(\v2\x1f.agent.registry.v1.HeartbeatAckH\x00R\fheartbeatAck\x12;\n" +
+	"\acommand\x18\x05 \x01(\v2\x1f.agent.registry.v1.AgentCommandH\x00R\acommandB\t\n" +
 	"\amessage2\xee\x01\n" +
-	"\rAgentRegistry\x12w\n" +
-	"\x14BootstrapEnrollAgent\x12..agent.registry.v1.BootstrapEnrollAgentRequest\x1a/.agent.registry.v1.BootstrapEnrollAgentResponse\x12d\n" +
-	"\x12AgentControlStream\x12$.agent.registry.v1.AgentToHypervisor\x1a$.agent.registry.v1.HypervisorToAgent(\x010\x01BDZBhypervisor/internal/transport/grpc/agentregistryv1;agentregistryv1b\x06proto3"
+	"\rAgentRegistry\x12d\n" +
+	"\x12AgentControlStream\x12$.agent.registry.v1.AgentToHypervisor\x1a$.agent.registry.v1.HypervisorToAgent(\x010\x01\x12w\n" +
+	"\x14BootstrapEnrollAgent\x12..agent.registry.v1.BootstrapEnrollAgentRequest\x1a/.agent.registry.v1.BootstrapEnrollAgentResponseB4Z2hypervisor/internal/transport/grpc/agentregistryv1b\x06proto3"
 
 var (
-	file_agent_registry_v1_agent_registry_proto_rawDescOnce sync.Once
-	file_agent_registry_v1_agent_registry_proto_rawDescData []byte
+	file_proto_agent_registry_v1_agent_registry_proto_rawDescOnce sync.Once
+	file_proto_agent_registry_v1_agent_registry_proto_rawDescData []byte
 )
 
-func file_agent_registry_v1_agent_registry_proto_rawDescGZIP() []byte {
-	file_agent_registry_v1_agent_registry_proto_rawDescOnce.Do(func() {
-		file_agent_registry_v1_agent_registry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_agent_registry_v1_agent_registry_proto_rawDesc), len(file_agent_registry_v1_agent_registry_proto_rawDesc)))
+func file_proto_agent_registry_v1_agent_registry_proto_rawDescGZIP() []byte {
+	file_proto_agent_registry_v1_agent_registry_proto_rawDescOnce.Do(func() {
+		file_proto_agent_registry_v1_agent_registry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_agent_registry_v1_agent_registry_proto_rawDesc), len(file_proto_agent_registry_v1_agent_registry_proto_rawDesc)))
 	})
-	return file_agent_registry_v1_agent_registry_proto_rawDescData
+	return file_proto_agent_registry_v1_agent_registry_proto_rawDescData
 }
 
-var file_agent_registry_v1_agent_registry_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
-var file_agent_registry_v1_agent_registry_proto_goTypes = []any{
-	(*BootstrapEnrollAgentRequest)(nil),  // 0: agent.registry.v1.BootstrapEnrollAgentRequest
-	(*BootstrapEnrollAgentResponse)(nil), // 1: agent.registry.v1.BootstrapEnrollAgentResponse
+var file_proto_agent_registry_v1_agent_registry_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_agent_registry_v1_agent_registry_proto_goTypes = []any{
+	(*AgentToHypervisor)(nil),            // 0: agent.registry.v1.AgentToHypervisor
+	(*HypervisorToAgent)(nil),            // 1: agent.registry.v1.HypervisorToAgent
 	(*RegisterHost)(nil),                 // 2: agent.registry.v1.RegisterHost
 	(*AgentHeartbeat)(nil),               // 3: agent.registry.v1.AgentHeartbeat
-	(*AgentCommand)(nil),                 // 4: agent.registry.v1.AgentCommand
-	(*RegisterAck)(nil),                  // 5: agent.registry.v1.RegisterAck
-	(*HeartbeatAck)(nil),                 // 6: agent.registry.v1.HeartbeatAck
-	(*StoragePoolInventory)(nil),         // 7: agent.registry.v1.StoragePoolInventory
-	(*NetworkInterfaceInventory)(nil),    // 8: agent.registry.v1.NetworkInterfaceInventory
-	(*HostInventory)(nil),                // 9: agent.registry.v1.HostInventory
-	(*NodeMetricSample)(nil),             // 10: agent.registry.v1.NodeMetricSample
-	(*VPSMetricSample)(nil),              // 11: agent.registry.v1.VPSMetricSample
-	(*AgentCommandResult)(nil),           // 12: agent.registry.v1.AgentCommandResult
-	(*AgentEvent)(nil),                   // 13: agent.registry.v1.AgentEvent
-	(*AgentToHypervisor)(nil),            // 14: agent.registry.v1.AgentToHypervisor
-	(*HypervisorToAgent)(nil),            // 15: agent.registry.v1.HypervisorToAgent
-	(*timestamppb.Timestamp)(nil),        // 16: google.protobuf.Timestamp
+	(*HostInventory)(nil),                // 4: agent.registry.v1.HostInventory
+	(*NodeMetricSample)(nil),             // 5: agent.registry.v1.NodeMetricSample
+	(*VPSMetricSample)(nil),              // 6: agent.registry.v1.VPSMetricSample
+	(*AgentCommandResult)(nil),           // 7: agent.registry.v1.AgentCommandResult
+	(*RegisterAck)(nil),                  // 8: agent.registry.v1.RegisterAck
+	(*HeartbeatAck)(nil),                 // 9: agent.registry.v1.HeartbeatAck
+	(*AgentCommand)(nil),                 // 10: agent.registry.v1.AgentCommand
+	(*BootstrapEnrollAgentRequest)(nil),  // 11: agent.registry.v1.BootstrapEnrollAgentRequest
+	(*BootstrapEnrollAgentResponse)(nil), // 12: agent.registry.v1.BootstrapEnrollAgentResponse
 }
-var file_agent_registry_v1_agent_registry_proto_depIdxs = []int32{
-	16, // 0: agent.registry.v1.BootstrapEnrollAgentResponse.cert_not_after:type_name -> google.protobuf.Timestamp
-	16, // 1: agent.registry.v1.AgentHeartbeat.last_seen_at:type_name -> google.protobuf.Timestamp
-	7,  // 2: agent.registry.v1.HostInventory.storage_pools:type_name -> agent.registry.v1.StoragePoolInventory
-	8,  // 3: agent.registry.v1.HostInventory.network_interfaces:type_name -> agent.registry.v1.NetworkInterfaceInventory
-	16, // 4: agent.registry.v1.HostInventory.collected_at:type_name -> google.protobuf.Timestamp
-	16, // 5: agent.registry.v1.NodeMetricSample.sampled_at:type_name -> google.protobuf.Timestamp
-	16, // 6: agent.registry.v1.VPSMetricSample.sampled_at:type_name -> google.protobuf.Timestamp
-	16, // 7: agent.registry.v1.AgentCommandResult.completed_at:type_name -> google.protobuf.Timestamp
-	16, // 8: agent.registry.v1.AgentEvent.occurred_at:type_name -> google.protobuf.Timestamp
-	2,  // 9: agent.registry.v1.AgentToHypervisor.register_host:type_name -> agent.registry.v1.RegisterHost
-	3,  // 10: agent.registry.v1.AgentToHypervisor.heartbeat:type_name -> agent.registry.v1.AgentHeartbeat
-	9,  // 11: agent.registry.v1.AgentToHypervisor.host_inventory:type_name -> agent.registry.v1.HostInventory
-	10, // 12: agent.registry.v1.AgentToHypervisor.node_metric:type_name -> agent.registry.v1.NodeMetricSample
-	11, // 13: agent.registry.v1.AgentToHypervisor.vps_metric:type_name -> agent.registry.v1.VPSMetricSample
-	12, // 14: agent.registry.v1.AgentToHypervisor.command_result:type_name -> agent.registry.v1.AgentCommandResult
-	13, // 15: agent.registry.v1.AgentToHypervisor.event:type_name -> agent.registry.v1.AgentEvent
-	5,  // 16: agent.registry.v1.HypervisorToAgent.register_ack:type_name -> agent.registry.v1.RegisterAck
-	6,  // 17: agent.registry.v1.HypervisorToAgent.heartbeat_ack:type_name -> agent.registry.v1.HeartbeatAck
-	4,  // 18: agent.registry.v1.HypervisorToAgent.command:type_name -> agent.registry.v1.AgentCommand
-	0,  // 19: agent.registry.v1.AgentRegistry.BootstrapEnrollAgent:input_type -> agent.registry.v1.BootstrapEnrollAgentRequest
-	14, // 20: agent.registry.v1.AgentRegistry.AgentControlStream:input_type -> agent.registry.v1.AgentToHypervisor
-	1,  // 21: agent.registry.v1.AgentRegistry.BootstrapEnrollAgent:output_type -> agent.registry.v1.BootstrapEnrollAgentResponse
-	15, // 22: agent.registry.v1.AgentRegistry.AgentControlStream:output_type -> agent.registry.v1.HypervisorToAgent
-	21, // [21:23] is the sub-list for method output_type
-	19, // [19:21] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+var file_proto_agent_registry_v1_agent_registry_proto_depIdxs = []int32{
+	2,  // 0: agent.registry.v1.AgentToHypervisor.register_host:type_name -> agent.registry.v1.RegisterHost
+	3,  // 1: agent.registry.v1.AgentToHypervisor.heartbeat:type_name -> agent.registry.v1.AgentHeartbeat
+	4,  // 2: agent.registry.v1.AgentToHypervisor.host_inventory:type_name -> agent.registry.v1.HostInventory
+	5,  // 3: agent.registry.v1.AgentToHypervisor.node_metric:type_name -> agent.registry.v1.NodeMetricSample
+	6,  // 4: agent.registry.v1.AgentToHypervisor.vps_metric:type_name -> agent.registry.v1.VPSMetricSample
+	7,  // 5: agent.registry.v1.AgentToHypervisor.command_result:type_name -> agent.registry.v1.AgentCommandResult
+	8,  // 6: agent.registry.v1.HypervisorToAgent.register_ack:type_name -> agent.registry.v1.RegisterAck
+	9,  // 7: agent.registry.v1.HypervisorToAgent.heartbeat_ack:type_name -> agent.registry.v1.HeartbeatAck
+	10, // 8: agent.registry.v1.HypervisorToAgent.command:type_name -> agent.registry.v1.AgentCommand
+	0,  // 9: agent.registry.v1.AgentRegistry.AgentControlStream:input_type -> agent.registry.v1.AgentToHypervisor
+	11, // 10: agent.registry.v1.AgentRegistry.BootstrapEnrollAgent:input_type -> agent.registry.v1.BootstrapEnrollAgentRequest
+	1,  // 11: agent.registry.v1.AgentRegistry.AgentControlStream:output_type -> agent.registry.v1.HypervisorToAgent
+	12, // 12: agent.registry.v1.AgentRegistry.BootstrapEnrollAgent:output_type -> agent.registry.v1.BootstrapEnrollAgentResponse
+	11, // [11:13] is the sub-list for method output_type
+	9,  // [9:11] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
-func init() { file_agent_registry_v1_agent_registry_proto_init() }
-func file_agent_registry_v1_agent_registry_proto_init() {
-	if File_agent_registry_v1_agent_registry_proto != nil {
+func init() { file_proto_agent_registry_v1_agent_registry_proto_init() }
+func file_proto_agent_registry_v1_agent_registry_proto_init() {
+	if File_proto_agent_registry_v1_agent_registry_proto != nil {
 		return
 	}
-	file_agent_registry_v1_agent_registry_proto_msgTypes[14].OneofWrappers = []any{
+	file_proto_agent_registry_v1_agent_common_proto_init()
+	file_proto_agent_registry_v1_agent_enrollment_proto_init()
+	file_proto_agent_registry_v1_agent_telemetry_proto_init()
+	file_proto_agent_registry_v1_agent_registry_proto_msgTypes[0].OneofWrappers = []any{
 		(*AgentToHypervisor_RegisterHost)(nil),
 		(*AgentToHypervisor_Heartbeat)(nil),
 		(*AgentToHypervisor_HostInventory)(nil),
 		(*AgentToHypervisor_NodeMetric)(nil),
 		(*AgentToHypervisor_VpsMetric)(nil),
 		(*AgentToHypervisor_CommandResult)(nil),
-		(*AgentToHypervisor_Event)(nil),
 	}
-	file_agent_registry_v1_agent_registry_proto_msgTypes[15].OneofWrappers = []any{
+	file_proto_agent_registry_v1_agent_registry_proto_msgTypes[1].OneofWrappers = []any{
 		(*HypervisorToAgent_RegisterAck)(nil),
 		(*HypervisorToAgent_HeartbeatAck)(nil),
 		(*HypervisorToAgent_Command)(nil),
@@ -1717,17 +399,17 @@ func file_agent_registry_v1_agent_registry_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_agent_registry_v1_agent_registry_proto_rawDesc), len(file_agent_registry_v1_agent_registry_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_agent_registry_v1_agent_registry_proto_rawDesc), len(file_proto_agent_registry_v1_agent_registry_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_agent_registry_v1_agent_registry_proto_goTypes,
-		DependencyIndexes: file_agent_registry_v1_agent_registry_proto_depIdxs,
-		MessageInfos:      file_agent_registry_v1_agent_registry_proto_msgTypes,
+		GoTypes:           file_proto_agent_registry_v1_agent_registry_proto_goTypes,
+		DependencyIndexes: file_proto_agent_registry_v1_agent_registry_proto_depIdxs,
+		MessageInfos:      file_proto_agent_registry_v1_agent_registry_proto_msgTypes,
 	}.Build()
-	File_agent_registry_v1_agent_registry_proto = out.File
-	file_agent_registry_v1_agent_registry_proto_goTypes = nil
-	file_agent_registry_v1_agent_registry_proto_depIdxs = nil
+	File_proto_agent_registry_v1_agent_registry_proto = out.File
+	file_proto_agent_registry_v1_agent_registry_proto_goTypes = nil
+	file_proto_agent_registry_v1_agent_registry_proto_depIdxs = nil
 }

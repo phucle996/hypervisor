@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AgentRegistry_AgentControlStream_FullMethodName   = "/agent.registry.v1.AgentRegistry/AgentControlStream"
 	AgentRegistry_BootstrapEnrollAgent_FullMethodName = "/agent.registry.v1.AgentRegistry/BootstrapEnrollAgent"
+	AgentRegistry_AgentControlStream_FullMethodName   = "/agent.registry.v1.AgentRegistry/AgentControlStream"
 )
 
 // AgentRegistryClient is the client API for AgentRegistry service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AgentRegistryClient interface {
-	AgentControlStream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[AgentToHypervisor, HypervisorToAgent], error)
 	BootstrapEnrollAgent(ctx context.Context, in *BootstrapEnrollAgentRequest, opts ...grpc.CallOption) (*BootstrapEnrollAgentResponse, error)
+	AgentControlStream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[AgentToHypervisor, HypervisorToAgent], error)
 }
 
 type agentRegistryClient struct {
@@ -37,6 +37,16 @@ type agentRegistryClient struct {
 
 func NewAgentRegistryClient(cc grpc.ClientConnInterface) AgentRegistryClient {
 	return &agentRegistryClient{cc}
+}
+
+func (c *agentRegistryClient) BootstrapEnrollAgent(ctx context.Context, in *BootstrapEnrollAgentRequest, opts ...grpc.CallOption) (*BootstrapEnrollAgentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BootstrapEnrollAgentResponse)
+	err := c.cc.Invoke(ctx, AgentRegistry_BootstrapEnrollAgent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *agentRegistryClient) AgentControlStream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[AgentToHypervisor, HypervisorToAgent], error) {
@@ -52,22 +62,12 @@ func (c *agentRegistryClient) AgentControlStream(ctx context.Context, opts ...gr
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type AgentRegistry_AgentControlStreamClient = grpc.BidiStreamingClient[AgentToHypervisor, HypervisorToAgent]
 
-func (c *agentRegistryClient) BootstrapEnrollAgent(ctx context.Context, in *BootstrapEnrollAgentRequest, opts ...grpc.CallOption) (*BootstrapEnrollAgentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BootstrapEnrollAgentResponse)
-	err := c.cc.Invoke(ctx, AgentRegistry_BootstrapEnrollAgent_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AgentRegistryServer is the server API for AgentRegistry service.
 // All implementations must embed UnimplementedAgentRegistryServer
 // for forward compatibility.
 type AgentRegistryServer interface {
-	AgentControlStream(grpc.BidiStreamingServer[AgentToHypervisor, HypervisorToAgent]) error
 	BootstrapEnrollAgent(context.Context, *BootstrapEnrollAgentRequest) (*BootstrapEnrollAgentResponse, error)
+	AgentControlStream(grpc.BidiStreamingServer[AgentToHypervisor, HypervisorToAgent]) error
 	mustEmbedUnimplementedAgentRegistryServer()
 }
 
@@ -78,11 +78,11 @@ type AgentRegistryServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAgentRegistryServer struct{}
 
-func (UnimplementedAgentRegistryServer) AgentControlStream(grpc.BidiStreamingServer[AgentToHypervisor, HypervisorToAgent]) error {
-	return status.Errorf(codes.Unimplemented, "method AgentControlStream not implemented")
-}
 func (UnimplementedAgentRegistryServer) BootstrapEnrollAgent(context.Context, *BootstrapEnrollAgentRequest) (*BootstrapEnrollAgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BootstrapEnrollAgent not implemented")
+}
+func (UnimplementedAgentRegistryServer) AgentControlStream(grpc.BidiStreamingServer[AgentToHypervisor, HypervisorToAgent]) error {
+	return status.Errorf(codes.Unimplemented, "method AgentControlStream not implemented")
 }
 func (UnimplementedAgentRegistryServer) mustEmbedUnimplementedAgentRegistryServer() {}
 func (UnimplementedAgentRegistryServer) testEmbeddedByValue()                       {}
@@ -105,13 +105,6 @@ func RegisterAgentRegistryServer(s grpc.ServiceRegistrar, srv AgentRegistryServe
 	s.RegisterService(&AgentRegistry_ServiceDesc, srv)
 }
 
-func _AgentRegistry_AgentControlStream_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(AgentRegistryServer).AgentControlStream(&grpc.GenericServerStream[AgentToHypervisor, HypervisorToAgent]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type AgentRegistry_AgentControlStreamServer = grpc.BidiStreamingServer[AgentToHypervisor, HypervisorToAgent]
-
 func _AgentRegistry_BootstrapEnrollAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(BootstrapEnrollAgentRequest)
 	if err := dec(in); err != nil {
@@ -129,6 +122,13 @@ func _AgentRegistry_BootstrapEnrollAgent_Handler(srv interface{}, ctx context.Co
 	}
 	return interceptor(ctx, in, info, handler)
 }
+
+func _AgentRegistry_AgentControlStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(AgentRegistryServer).AgentControlStream(&grpc.GenericServerStream[AgentToHypervisor, HypervisorToAgent]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type AgentRegistry_AgentControlStreamServer = grpc.BidiStreamingServer[AgentToHypervisor, HypervisorToAgent]
 
 // AgentRegistry_ServiceDesc is the grpc.ServiceDesc for AgentRegistry service.
 // It's only intended for direct use with grpc.RegisterService,

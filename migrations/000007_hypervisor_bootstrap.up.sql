@@ -1,6 +1,0 @@
-ALTER TABLE hypervisor_nodes
-    ADD COLUMN IF NOT EXISTS management_ip VARCHAR(45) NOT NULL DEFAULT '';
-
-ALTER TABLE hypervisor_node_agents
-    ADD COLUMN IF NOT EXISTS cert_serial VARCHAR(64) NOT NULL DEFAULT '',
-    ADD COLUMN IF NOT EXISTS cert_not_after TIMESTAMPTZ;

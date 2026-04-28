@@ -41,7 +41,9 @@ type HypervisorNode struct {
 	CPUModel     string
 	CPUCores     int
 	CPUThreads   int
+	RAMModel     string
 	RAMGib       int
+	DiskModel    string
 	SSDGib       int
 	GpuModel     string
 	GpuCount     int
@@ -207,8 +209,15 @@ type AgentRegistration struct {
 	AgentVersion     string
 	CapabilitiesJSON string
 	CPUCores         int
+	CPUThreads       int
 	MemoryBytes      int64
 	DiskBytes        int64
+	GPUCores         int
+	GPUMemoryBytes   int64
+	CPUModel         string
+	RAMModel         string
+	DiskModel        string
+	GPUModel         string
 }
 
 type HypervisorNodeDetail struct {

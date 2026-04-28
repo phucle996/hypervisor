@@ -293,13 +293,15 @@ func (h *NodeHypervisorHandler) GetNodeDetail(c *gin.Context) {
 		if v.LatestMetric != nil {
 			latestMetric = gin.H{
 				"cpu_used_percent": v.LatestMetric.CPUUsedPercent,
+				"cpu_used_cores":   v.LatestMetric.CPUUsedCores,
 				"ram_used_gib":     v.LatestMetric.RAMUsedGib,
+				"ram_used_percent": v.LatestMetric.RAMUsedPercent,
 				"ssd_used_gib":     v.LatestMetric.SSDUsedGib,
+				"ssd_used_percent": v.LatestMetric.SSDUsedPercent,
+				"gpu_used_gib":     v.LatestMetric.GPUUsedGib,
+				"gpu_used_percent": v.LatestMetric.GPUUsedPercent,
 				"network_rx_bps":   v.LatestMetric.NetworkRxBps,
 				"network_tx_bps":   v.LatestMetric.NetworkTxBps,
-				"load_avg_1m":      v.LatestMetric.LoadAvg1m,
-				"load_avg_5m":      v.LatestMetric.LoadAvg5m,
-				"load_avg_15m":     v.LatestMetric.LoadAvg15m,
 				"sampled_at":       v.LatestMetric.SampledAt,
 			}
 		}
@@ -355,13 +357,15 @@ func (h *NodeHypervisorHandler) ListNodeMetrics(c *gin.Context) {
 			"id":               item.ID,
 			"node_id":          item.NodeID,
 			"cpu_used_percent": item.CPUUsedPercent,
+			"cpu_used_cores":   item.CPUUsedCores,
 			"ram_used_gib":     item.RAMUsedGib,
+			"ram_used_percent": item.RAMUsedPercent,
 			"ssd_used_gib":     item.SSDUsedGib,
+			"ssd_used_percent": item.SSDUsedPercent,
+			"gpu_used_gib":     item.GPUUsedGib,
+			"gpu_used_percent": item.GPUUsedPercent,
 			"network_rx_bps":   item.NetworkRxBps,
 			"network_tx_bps":   item.NetworkTxBps,
-			"load_avg_1m":      item.LoadAvg1m,
-			"load_avg_5m":      item.LoadAvg5m,
-			"load_avg_15m":     item.LoadAvg15m,
 			"sampled_at":       item.SampledAt,
 		})
 	}
