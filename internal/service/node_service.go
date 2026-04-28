@@ -375,6 +375,10 @@ func (s *NodeService) AssignNodeZone(ctx context.Context, input entity.AssignNod
 	return s.repo.AssignNodeZone(ctx, input)
 }
 
+func (s *NodeService) DeleteNode(ctx context.Context, nodeID string) error {
+	return s.repo.DeleteNode(ctx, nodeID)
+}
+
 func (s *NodeService) renderInstallCommand(token, version string) string {
 	return strings.Join([]string{
 		"curl -fsSL",

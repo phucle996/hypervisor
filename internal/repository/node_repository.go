@@ -1069,11 +1069,11 @@ func (r *NodeRepository) AssignNodeZone(ctx context.Context, input entity.Assign
 	defer tx.Rollback(ctx)
 
 	tag, err := tx.Exec(ctx, `
-UPDATE hypervisor_nodes
-SET zone_id = $2,
-    updated_at = NOW()
-WHERE id = $1
-  AND deleted_at IS NULL
+		UPDATE hypervisor_nodes
+		SET zone_id = $2::text,
+			updated_at = NOW()
+		WHERE id = $1
+		AND deleted_at IS NULL
 `, strings.TrimSpace(input.NodeID), strings.TrimSpace(input.ZoneID))
 	if err != nil {
 		return fmt.Errorf("hypervisor repo: assign node zone: %w", err)
@@ -1085,10 +1085,10 @@ WHERE id = $1
 	// Keep the latest admin-assigned zone visible to the agent metadata without
 	// requiring the agent to resend a register frame.
 	_, err = tx.Exec(ctx, `
-UPDATE hypervisor_node_agents
-SET metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object('zone_id', $2),
-    updated_at = NOW()
-WHERE node_id = $1
+		UPDATE hypervisor_node_agents
+		SET metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object('zone_id', $2::text),
+		    updated_at = NOW()
+		WHERE node_id = $1
 `, strings.TrimSpace(input.NodeID), strings.TrimSpace(input.ZoneID))
 	if err != nil {
 		return fmt.Errorf("hypervisor repo: assign agent zone metadata: %w", err)
@@ -1096,6 +1096,24 @@ WHERE node_id = $1
 
 	if err := tx.Commit(ctx); err != nil {
 		return fmt.Errorf("hypervisor repo: commit assign node zone: %w", err)
+	}
+	return nil
+}
+
+func (r *NodeRepository) DeleteNode(ctx context.Context, nodeID string) error {
+	if strings.TrimSpace(nodeID) == "" {
+		return errorx.ErrInvalidInput
+	}
+	tag, err := r.db.Exec(ctx, `
+UPDATE hypervisor_nodes
+SET deleted_at = NOW()
+WHERE id = $1 AND deleted_at IS NULL
+`, strings.TrimSpace(nodeID))
+	if err != nil {
+		return fmt.Errorf("hypervisor repo: delete node: %w", err)
+	}
+	if tag.RowsAffected() == 0 {
+		return errorx.ErrNotFound
 	}
 	return nil
 }

@@ -22,4 +22,5 @@ type NodeRepoInterface interface {
 	LeaseAgentCommands(ctx context.Context, input entity.LeaseAgentCommandInput) ([]*entity.AgentCommand, error)
 	EnqueueAgentCommand(ctx context.Context, input entity.EnqueueAgentCommandInput) (*entity.AgentCommand, error)
 	AssignNodeZone(ctx context.Context, input entity.AssignNodeZoneInput) error
+	DeleteNode(ctx context.Context, nodeID string) error
 }

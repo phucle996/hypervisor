@@ -23,4 +23,5 @@ type NodeSvcInterface interface {
 	EnqueueVMCommand(ctx context.Context, input entity.VMCommandInput) (*entity.AgentCommand, error)
 	SubscribeNodeStream(ctx context.Context, nodeID string) (<-chan entity.NodeStreamEvent, func(), error)
 	AssignNodeZone(ctx context.Context, input entity.AssignNodeZoneInput) error
+	DeleteNode(ctx context.Context, nodeID string) error
 }

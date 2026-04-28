@@ -50,6 +50,10 @@ func RegisterRoutes(router *gin.Engine, _ *config.Config, m *Module) {
 		middleware.RateLimit(m.RateLimiter, "hypervisor_admin_node_assign_zone", 30, 30, time.Minute),
 		m.NodeHandler.AssignNodeZone,
 	)
+	admin.DELETE("/nodes/:node_id",
+		middleware.RateLimit(m.RateLimiter, "hypervisor_admin_node_delete", 30, 30, time.Minute),
+		m.NodeHandler.DeleteNode,
+	)
 	admin.POST("/nodes/:node_id/vm-commands/:command",
 		middleware.RateLimit(m.RateLimiter, "hypervisor_admin_vm_command_enqueue", 60, 60, time.Minute),
 		m.NodeHandler.EnqueueVMCommand,

@@ -488,6 +488,26 @@ func (h *NodeHypervisorHandler) AssignNodeZone(c *gin.Context) {
 	}, "ok")
 }
 
+func (h *NodeHypervisorHandler) DeleteNode(c *gin.Context) {
+	op := "NodeHypervisor.DeleteNode"
+	nodeID := c.Param("node_id")
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
+
+	if err := h.service.DeleteNode(ctx, nodeID); err != nil {
+		if errors.Is(err, hypervisor_errorx.ErrNotFound) {
+			apires.RespondNotFound(c, "node not found")
+			return
+		}
+		logger.HandlerError(c, op, err)
+		apires.RespondServiceUnavailable(c, "service unavailable")
+		return
+	}
+
+	apires.RespondSuccess(c, nil, "node deleted")
+}
+
 func (h *NodeHypervisorHandler) EnqueueVMCommand(c *gin.Context) {
 	op := "NodeHypervisor.EnqueueVMCommand"
 
